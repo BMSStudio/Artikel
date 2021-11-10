@@ -10,7 +10,7 @@ public class Artikel
     public static final int STD_BESTAND = 0;
     private int artikelNr; 
     private String art ; 
-    private int bestand;
+    private int bestandss;
     
     /**
      * Neues Artikel-Object wird erzeugt 
