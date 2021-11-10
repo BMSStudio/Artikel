@@ -16,11 +16,12 @@ public class ArtikelDialog
     * Klassenkonstanten
     */
     private static final int ANLEGEN = 1;
-    private static final int ZUGANGABBUCHEN = 2;
-    private static final int ABGANGABBUCHEN = 3;
-    private static final int NEUEART = 4;
-    private static final int ARTIKELNUMMER_VERAENDERN = 5;
-    private static final int ARTIKEL_ANZEIGEN = 6;
+    private static final int OHNE_BESTAND_ANLEGEN = 2;
+    private static final int ZUGANGABBUCHEN = 3;
+    private static final int ABGANGABBUCHEN = 4;
+    private static final int NEUEART = 5;
+    private static final int ARTIKELNUMMER_VERAENDERN = 6;
+    private static final int ARTIKEL_ANZEIGEN = 7;
     private static final int ZUSTIMMEN = 1;
     private static final int ABLEHNEN = 2 ;
     private static final int ENDE = 0;
@@ -56,6 +57,7 @@ public class ArtikelDialog
                 e.printStackTrace (System.out);
                
         }
+        
         }
     }
     
@@ -67,9 +69,10 @@ public class ArtikelDialog
     private int eingabeFunktion (){
         int funktion;
         System.out.println ("\nGeben Sie die Nummer der Funktion ein\n");
-        System.out.println ("-> Neue Artikel Anlegen: "+ ANLEGEN
+        System.out.println ("-> Neue Artikel anlegen: "+ ANLEGEN
+                        +"\n-> Neue Artikel ohne Bestand anlegen: "+OHNE_BESTAND_ANLEGEN
                         + "\n-> Menge hinzufuegen: "+ZUGANGABBUCHEN 
-                        + "\n-> Menge Abbuchen: "+ABGANGABBUCHEN
+                        + "\n-> Menge abbuchen: "+ABGANGABBUCHEN
                         + "\n-> Art veraendern: "+NEUEART 
                         + "\n-> Artikelnummer veraendern: "+ARTIKELNUMMER_VERAENDERN
                         + "\n-> Artikel anzeigen: "+ARTIKEL_ANZEIGEN
@@ -88,16 +91,18 @@ public class ArtikelDialog
     private void verarbeitungsFunktion(int funktion){
         if (funktion == ANLEGEN){
             artikelAnlegen();
+        }else if (funktion == OHNE_BESTAND_ANLEGEN){
+            artikelOhneBestand();
         }else if (funktion == ZUGANGABBUCHEN){
             bucheZugang();
         }else if (funktion == ABGANGABBUCHEN){
             bucheAbgang();
         }else if (funktion == NEUEART){
             setArt();
-        }else if (funktion == ARTIKEL_ANZEIGEN){
-            artikelAnzeigen();
         }else if (funktion == ARTIKELNUMMER_VERAENDERN){
-                artikelNummerVeraendern();
+            artikelNummerVeraendern();
+        }else if (funktion == ARTIKEL_ANZEIGEN){
+                artikelAnzeigen();
         }else if (funktion == ENDE){
             System.out.println ("Programm wird beendet");
             
@@ -115,7 +120,7 @@ public class ArtikelDialog
     
     private void artikelAnzeigen (){
         if (artikel != null){
-             artikel.toString();
+             System.out.println (artikel.toString());
         }else  {
             System.out.println("\n-Es wurde keine Artikel gefunden!!!");
         }
@@ -141,9 +146,23 @@ public class ArtikelDialog
         
         artikel = new Artikel (artikelnummer , art.strip() , bestand);
         }else {
-            System.out.println("\nDie Artikel wird nicht ueberschrieben");
+            System.out.println("\n"+artikel.toString());
         }
        
+    }
+    
+    private void artikelOhneBestand (){
+        if (checkVerfuegbarenArtikeln()){
+           System.out.print("Artikelnummer:");
+        int artikelnummer = input.nextInt();
+        
+        System.out.print("Artikel Art: ");
+        String art = input.next();
+        
+        artikel = new Artikel (artikelnummer,art);
+        }else {
+            System.out.println("\n"+artikel.toString());
+        }
     }
     
     /**
@@ -152,7 +171,7 @@ public class ArtikelDialog
     
     private boolean checkVerfuegbarenArtikeln (){
         if (artikel != null){
-            System.out.println ("\nEine Artikel wurde beretis geschrieben , Wollen Sie die Artikel trotzdem Ueberschreiben?");
+            System.out.println ("\nEine Artikel wurde bereits geschrieben , Wollen Sie die Artikel trotzdem ueberschreiben?");
             System.out.println ("Ja : geben Sie bitte '1' ein"
                                 +"\nNein: geben Sie bitte '2' ein");
             int eingabe = input.nextInt ();

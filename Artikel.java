@@ -24,6 +24,10 @@ public class Artikel
         if (art == null || art.equals("null")){
             throw new IllegalArgumentException ("Sie duerfen kein null hinzufuegen");
         }
+        
+        if (artikel <= 0 ){
+            throw new IllegalArgumentException ("Die Artikelnummer muss groesser als null sein und nur aus positiven Zahlen bestehen");
+        }
         this.artikelNr = artikel ;
         this.art = art;
         this.bestand = bestand;
@@ -47,7 +51,7 @@ public class Artikel
         if (menge > 0) {
             bestand += menge;
         }else{
-            throw new IllegalArgumentException ("Sie können keine negative Zahlen oder 0 hinzufuegen");
+            throw new IllegalArgumentException ("Sie können keine negative Zahlen oder null hinzufuegen");
         }
         
     }
@@ -59,7 +63,7 @@ public class Artikel
     
     public void bucheAbgang (int menge){
         if (menge <= 0 ){
-            throw new IllegalArgumentException ("Menge ist: 0, Es wird nichts abbgebucht!");
+            throw new IllegalArgumentException ("Sie können keine negative Zahlen oder null eingeben!");
         }
         else if (bestand >= menge){
             bestand -= menge;
