@@ -9,7 +9,7 @@ public class Artikel
 {
     public static final int STD_BESTAND = 0;
     private int artikelNr; 
-    private String art ; 
+    private String art dasdassd; 
     private int bestand;
     
     /**
